@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    ECODRIVE EV JAVASCRIPT
    ========================================================= */
@@ -9,12 +8,10 @@
    ========================================================= */
 
 function bookTestDrive() {
-
     alert(
         "Thank you for your interest in EcoDrive EV! " +
         "Our team will contact you to arrange your test drive."
     );
-
 }
 
 
@@ -22,22 +19,17 @@ function bookTestDrive() {
    FLASK BACKEND
    ========================================================= */
 
-const API_URL =
-    "https://ai-ev-website-backend.onrender.com/chat";
+const API_URL = "https://ai-ev-website-backend.onrender.com/chat";
 
 
 /* =========================================================
    CURRENT YEAR
    ========================================================= */
 
-const yearElement =
-    document.getElementById("year");
+const yearElement = document.getElementById("year");
 
 if (yearElement) {
-
-    yearElement.textContent =
-        new Date().getFullYear();
-
+    yearElement.textContent = new Date().getFullYear();
 }
 
 
@@ -45,20 +37,13 @@ if (yearElement) {
    MOBILE MENU
    ========================================================= */
 
-const menuToggle =
-    document.getElementById("menuToggle");
-
-const mainNav =
-    document.getElementById("mainNav");
+const menuToggle = document.getElementById("menuToggle");
+const mainNav = document.getElementById("mainNav");
 
 if (menuToggle && mainNav) {
-
     menuToggle.addEventListener("click", () => {
-
         mainNav.classList.toggle("active");
-
     });
-
 }
 
 
@@ -102,9 +87,7 @@ document
         link.addEventListener("click", () => {
 
             if (mainNav) {
-
                 mainNav.classList.remove("active");
-
             }
 
         });
@@ -151,9 +134,7 @@ if (chatToggle && chatWindow) {
         ) {
 
             setTimeout(() => {
-
                 chatInput.focus();
-
             }, 100);
 
         }
@@ -386,7 +367,6 @@ async function getBackendResponse(message) {
             error
         );
 
-
         return getLocalResponse(message);
 
     }
@@ -419,8 +399,10 @@ async function sendChatMessage(message) {
     const typingElement =
         document.createElement("div");
 
+
     typingElement.className =
         "bot-message";
+
 
     typingElement.textContent =
         "EcoDrive Agent is responding...";
@@ -443,9 +425,7 @@ async function sendChatMessage(message) {
 
 
     if (typingElement) {
-
         typingElement.remove();
-
     }
 
 
@@ -477,16 +457,12 @@ if (chatForm) {
 
 
             if (!message) {
-
                 return;
-
             }
 
 
             if (chatInput) {
-
                 chatInput.value = "";
-
             }
 
 
@@ -573,4 +549,3 @@ if (testDriveForm) {
     );
 
 }
-```
