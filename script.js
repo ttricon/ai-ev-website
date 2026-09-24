@@ -1,32 +1,43 @@
+```javascript
 /* =========================================================
    ECODRIVE EV JAVASCRIPT
    ========================================================= */
 
 
-/*
-   IMPORTANT FOR GLOBAL DEPLOYMENT
+/* =========================================================
+   BOOK TEST DRIVE
+   ========================================================= */
 
-   When the Flask backend is deployed, replace the value below
-   with the actual HTTPS address of your Flask backend.
+function bookTestDrive() {
 
-   Example:
+    alert(
+        "Thank you for your interest in EcoDrive EV! " +
+        "Our team will contact you to arrange your test drive."
+    );
 
-   const API_URL = "https://your-flask-backend.example.com/chat";
+}
 
-   Until then, the built-in fallback chatbot will work locally.
-*/
 
-const API_URL = window.ECODRIVE_API_URL || "";
+/* =========================================================
+   FLASK BACKEND
+   ========================================================= */
+
+const API_URL =
+    "https://ai-ev-website-backend.onrender.com/chat";
 
 
 /* =========================================================
    CURRENT YEAR
    ========================================================= */
 
-const yearElement = document.getElementById("year");
+const yearElement =
+    document.getElementById("year");
 
 if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
+
+    yearElement.textContent =
+        new Date().getFullYear();
+
 }
 
 
@@ -34,8 +45,11 @@ if (yearElement) {
    MOBILE MENU
    ========================================================= */
 
-const menuToggle = document.getElementById("menuToggle");
-const mainNav = document.getElementById("mainNav");
+const menuToggle =
+    document.getElementById("menuToggle");
+
+const mainNav =
+    document.getElementById("mainNav");
 
 if (menuToggle && mainNav) {
 
@@ -55,7 +69,6 @@ if (menuToggle && mainNav) {
 const dropdownToggles =
     document.querySelectorAll(".dropdown-toggle");
 
-
 dropdownToggles.forEach(toggle => {
 
     toggle.addEventListener("click", event => {
@@ -67,7 +80,9 @@ dropdownToggles.forEach(toggle => {
 
             event.preventDefault();
 
-            dropdown.classList.toggle("open");
+            if (dropdown) {
+                dropdown.classList.toggle("open");
+            }
 
         }
 
@@ -80,17 +95,21 @@ dropdownToggles.forEach(toggle => {
    CLOSE MOBILE NAV WHEN LINK IS CLICKED
    ========================================================= */
 
-document.querySelectorAll(".dropdown-menu a").forEach(link => {
+document
+    .querySelectorAll(".dropdown-menu a")
+    .forEach(link => {
 
-    link.addEventListener("click", () => {
+        link.addEventListener("click", () => {
 
-        if (mainNav) {
-            mainNav.classList.remove("active");
-        }
+            if (mainNav) {
+
+                mainNav.classList.remove("active");
+
+            }
+
+        });
 
     });
-
-});
 
 
 /* =========================================================
@@ -126,11 +145,15 @@ if (chatToggle && chatWindow) {
 
         chatWindow.classList.toggle("active");
 
-        if (chatWindow.classList.contains("active") &&
-            chatInput) {
+        if (
+            chatWindow.classList.contains("active") &&
+            chatInput
+        ) {
 
             setTimeout(() => {
+
                 chatInput.focus();
+
             }, 100);
 
         }
@@ -169,12 +192,16 @@ function addMessage(message, type) {
             ? "user-message"
             : "bot-message";
 
-    messageElement.textContent = message;
+    messageElement.textContent =
+        message;
 
-    chatMessages.appendChild(messageElement);
+    chatMessages.appendChild(
+        messageElement
+    );
 
     chatMessages.scrollTop =
         chatMessages.scrollHeight;
+
 }
 
 
@@ -188,6 +215,8 @@ function getLocalResponse(message) {
         message.toLowerCase().trim();
 
 
+    /* Greeting */
+
     if (
         text.includes("hi") ||
         text.includes("hello") ||
@@ -199,6 +228,8 @@ function getLocalResponse(message) {
     }
 
 
+    /* EcoDrive */
+
     if (
         text.includes("ecodrive") ||
         text.includes("about")
@@ -208,6 +239,8 @@ function getLocalResponse(message) {
 
     }
 
+
+    /* Features */
 
     if (
         text.includes("feature") ||
@@ -220,15 +253,7 @@ function getLocalResponse(message) {
     }
 
 
-    if (
-        text.includes("charging") ||
-        text.includes("charge")
-    ) {
-
-        return "EcoDrive demonstrates two charging concepts: convenient home charging and faster public charging for longer journeys.";
-
-    }
-
+    /* Home charging */
 
     if (
         text.includes("home charging")
@@ -239,6 +264,8 @@ function getLocalResponse(message) {
     }
 
 
+    /* Fast charging */
+
     if (
         text.includes("fast charging")
     ) {
@@ -247,6 +274,20 @@ function getLocalResponse(message) {
 
     }
 
+
+    /* Charging */
+
+    if (
+        text.includes("charging") ||
+        text.includes("charge")
+    ) {
+
+        return "EcoDrive demonstrates two charging concepts: convenient home charging and faster public charging for longer journeys.";
+
+    }
+
+
+    /* Test drive */
 
     if (
         text.includes("test drive") ||
@@ -259,6 +300,8 @@ function getLocalResponse(message) {
     }
 
 
+    /* Contact */
+
     if (
         text.includes("contact") ||
         text.includes("support")
@@ -269,6 +312,8 @@ function getLocalResponse(message) {
     }
 
 
+    /* Help */
+
     if (
         text.includes("help")
     ) {
@@ -278,8 +323,9 @@ function getLocalResponse(message) {
     }
 
 
-    return "I can help with EcoDrive, Features, Charging, Test Drive and Contact. Please try one of those topics.";
+    /* Default */
 
+    return "I can help with EcoDrive, Features, Charging, Test Drive and Contact. Please try one of those topics.";
 
 }
 
@@ -289,13 +335,6 @@ function getLocalResponse(message) {
    ========================================================= */
 
 async function getBackendResponse(message) {
-
-    if (!API_URL) {
-
-        return getLocalResponse(message);
-
-    }
-
 
     try {
 
@@ -318,7 +357,8 @@ async function getBackendResponse(message) {
         if (!response.ok) {
 
             throw new Error(
-                "Backend request failed."
+                "Backend request failed: " +
+                response.status
             );
 
         }
@@ -337,8 +377,9 @@ async function getBackendResponse(message) {
 
         return getLocalResponse(message);
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.warn(
             "EcoDrive backend unavailable:",
@@ -359,8 +400,13 @@ async function getBackendResponse(message) {
 
 async function sendChatMessage(message) {
 
-    if (!message || !message.trim()) {
+    if (
+        !message ||
+        !message.trim()
+    ) {
+
         return;
+
     }
 
 
@@ -423,18 +469,30 @@ if (chatForm) {
 
             event.preventDefault();
 
+
             const message =
-                chatInput.value.trim();
+                chatInput
+                    ? chatInput.value.trim()
+                    : "";
+
 
             if (!message) {
+
                 return;
+
             }
 
 
-            chatInput.value = "";
+            if (chatInput) {
+
+                chatInput.value = "";
+
+            }
 
 
-            await sendChatMessage(message);
+            await sendChatMessage(
+                message
+            );
 
         }
     );
@@ -461,9 +519,14 @@ quickOptions.forEach(button => {
             const question =
                 button.dataset.question;
 
-            await sendChatMessage(
-                question
-            );
+
+            if (question) {
+
+                await sendChatMessage(
+                    question
+                );
+
+            }
 
         }
     );
@@ -510,3 +573,4 @@ if (testDriveForm) {
     );
 
 }
+```
